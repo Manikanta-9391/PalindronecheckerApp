@@ -4,55 +4,48 @@ The objective of the **PalindromeChecker App** is to design and implement a cons
 
 ---
 
-# UC6: Queue + Stack Based Palindrome Check
+# UC7: Deque-Based Optimized Palindrome Checker
 
 ## Goal
-Demonstrate the difference between FIFO and LIFO behavior using Queue and Stack to validate whether a string is a palindrome.
+Use a **Deque (Double Ended Queue)** to directly compare the first and last characters of a string to determine whether it is a palindrome.
 
 ---
 
 ## Flow
 1. Program starts.
 2. The original string is stored in a variable.
-3. A Queue and a Stack are created.
-4. Each character of the string is:
-    - Enqueued into the Queue.
-    - Pushed into the Stack.
-5. Characters are removed from the Queue using **dequeue**.
-6. Characters are removed from the Stack using **pop**.
-7. The removed characters are compared.
-8. If all characters match → it is a palindrome.
+3. A Deque data structure is created.
+4. Characters of the string are inserted into the deque.
+5. The first and last characters are removed.
+6. The removed characters are compared.
+7. If characters match, the process continues.
+8. If characters differ, the string is not a palindrome.
 9. The result is printed on the console.
 10. Program exits.
 
 ---
 
-## Key Concepts Used in UC6
+## Key Concepts Used in UC7
 
-### Queue
-A linear data structure that follows the **First In First Out (FIFO)** principle.
+### Deque (Double Ended Queue)
+A data structure that allows insertion and deletion from both the **front and rear** ends.
 
-### Enqueue & Dequeue Operations
-Used to insert and remove elements from the queue.
+### Front and Rear Access
+Deque allows direct comparison of **first and last characters**.
 
-### Stack vs Queue
-Demonstrates the behavioral difference between **LIFO (Stack)** and **FIFO (Queue)** structures.
+### Optimized Data Handling
+This method eliminates the need for extra reversal structures like stacks.
 
-### Logical Comparison
-Matching **dequeue output (Queue)** with **pop output (Stack)** to validate palindrome logic.
-
-### Data Structures
-- Queue
-- Stack
+### Data Structure
+Deque
 
 ---
 
 ## Java Implementation
 
 ```java
-import java.util.Queue;
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
@@ -60,23 +53,20 @@ public class PalindromeCheckerApp {
 
         String text = "madam";
 
-        Queue<Character> queue = new LinkedList<>();
-        Stack<Character> stack = new Stack<>();
+        Deque<Character> deque = new LinkedList<>();
 
         for (int i = 0; i < text.length(); i++) {
-            char ch = text.charAt(i);
-            queue.add(ch);
-            stack.push(ch);
+            deque.addLast(text.charAt(i));
         }
 
         boolean isPalindrome = true;
 
-        while (!queue.isEmpty()) {
+        while (deque.size() > 1) {
 
-            char fromQueue = queue.remove();
-            char fromStack = stack.pop();
+            char first = deque.removeFirst();
+            char last = deque.removeLast();
 
-            if (fromQueue != fromStack) {
+            if (first != last) {
                 isPalindrome = false;
                 break;
             }
@@ -87,5 +77,5 @@ public class PalindromeCheckerApp {
         } else {
             System.out.println(text + " is Not a Palindrome");
         }
-   }
+    }
 }
