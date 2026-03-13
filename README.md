@@ -4,75 +4,111 @@ The objective of the **PalindromeChecker App** is to design and implement a cons
 
 ---
 
-# UC7: Deque-Based Optimized Palindrome Checker
+# UC8: Linked List Based Palindrome Checker
 
 ## Goal
-Use a **Deque (Double Ended Queue)** to directly compare the first and last characters of a string to determine whether it is a palindrome.
+Check whether a string is a palindrome using a **Singly Linked List**.
 
 ---
 
 ## Flow
 1. Program starts.
 2. The original string is stored in a variable.
-3. A Deque data structure is created.
-4. Characters of the string are inserted into the deque.
-5. The first and last characters are removed.
-6. The removed characters are compared.
-7. If characters match, the process continues.
-8. If characters differ, the string is not a palindrome.
-9. The result is printed on the console.
-10. Program exits.
+3. The string is converted into a singly linked list.
+4. The middle of the linked list is found using the fast and slow pointer technique.
+5. The second half of the linked list is reversed.
+6. The first half and reversed second half are compared.
+7. If all nodes match → it is a palindrome.
+8. The result is printed on the console.
+9. Program exits.
 
 ---
 
-## Key Concepts Used in UC7
+## Key Concepts Used in UC8
 
-### Deque (Double Ended Queue)
-A data structure that allows insertion and deletion from both the **front and rear** ends.
+### Singly Linked List
+A dynamic data structure where elements are connected using node references.
 
-### Front and Rear Access
-Deque allows direct comparison of **first and last characters**.
+### Node Traversal
+Sequential access to elements using `next` references.
 
-### Optimized Data Handling
-This method eliminates the need for extra reversal structures like stacks.
+### Fast and Slow Pointer Technique
+Used to efficiently locate the middle of the linked list.
+
+### In-Place Reversal
+Reverses the second half of the linked list without using extra memory.
 
 ### Data Structure
-Deque
+Singly Linked List
 
 ---
 
 ## Java Implementation
 
 ```java
-import java.util.Deque;
-import java.util.LinkedList;
-
 public class PalindromeCheckerApp {
+
+    static class Node {
+        char data;
+        Node next;
+
+        Node(char data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public static boolean isPalindrome(Node head) {
+
+        if (head == null || head.next == null) {
+            return true;
+        }
+
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        Node prev = null;
+        Node current = slow;
+
+        while (current != null) {
+            Node next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        Node firstHalf = head;
+        Node secondHalf = prev;
+
+        while (secondHalf != null) {
+            if (firstHalf.data != secondHalf.data) {
+                return false;
+            }
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
+        }
+
+        return true;
+    }
 
     public static void main(String[] args) {
 
         String text = "madam";
 
-        Deque<Character> deque = new LinkedList<>();
+        Node head = new Node(text.charAt(0));
+        Node current = head;
 
-        for (int i = 0; i < text.length(); i++) {
-            deque.addLast(text.charAt(i));
+        for (int i = 1; i < text.length(); i++) {
+            current.next = new Node(text.charAt(i));
+            current = current.next;
         }
 
-        boolean isPalindrome = true;
-
-        while (deque.size() > 1) {
-
-            char first = deque.removeFirst();
-            char last = deque.removeLast();
-
-            if (first != last) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        if (isPalindrome) {
+        if (isPalindrome(head)) {
             System.out.println(text + " is a Palindrome");
         } else {
             System.out.println(text + " is Not a Palindrome");
