@@ -1,104 +1,75 @@
 # Palindrome Checker App
 
-The objective of the **PalindromeChecker App** is to design and implement a console-based Java application that validates whether a given string is a palindrome under different conditions while strengthening core programming fundamentals and data structure concepts.
+The objective of the **PalindromeChecker App** is to design and implement a console-based Java application that validates whether a given string is a palindrome under different conditions, while strengthening core programming fundamentals and data structure concepts.
 
 ---
 
-# UC4: Character Array Based Palindrome Check
+# UC5: Stack-Based Palindrome Checker
 
 ## Goal
-
-Convert a string into a character array and check whether it is a palindrome using the two-pointer technique.
+Use a stack data structure to reverse characters of a string and validate whether the string is a palindrome.
 
 ---
 
 ## Flow
-
 1. Program starts.
 2. The original string is stored in a variable.
-3. The string is converted into a character array using `toCharArray()`.
-4. Two pointers are created:
-
-    * One pointer starts from the beginning of the array.
-    * Another pointer starts from the end of the array.
-5. Characters at both positions are compared.
-6. If characters are different → it is **not a palindrome**.
-7. If all characters match → it is **a palindrome**.
+3. A stack data structure is created.
+4. Each character of the string is pushed into the stack.
+5. Characters are popped from the stack to build the reversed string.
+6. The reversed string is compared with the original string.
+7. If both are equal → it is a palindrome.
 8. The result is printed on the console.
 9. Program exits.
 
 ---
 
-## Key Concepts Used in UC4
+## Key Concepts Used in UC5
 
-### Character Array (`char[]`)
+### Stack
+A linear data structure that follows the **Last In First Out (LIFO)** principle.
 
-A primitive array used to store individual characters of a string for index-based access.
+### Push Operation
+Used to insert characters into the stack.
 
-### Array Indexing
+### Pop Operation
+Used to remove characters from the stack in reverse order.
 
-Elements in an array are accessed using index positions starting from **0**.
+### Reversal Logic
+Stack naturally reverses the order of elements, making it suitable for palindrome validation.
 
-### Two-Pointer Technique
-
-One pointer starts from the beginning and the other from the end, reducing unnecessary comparisons.
-
-### Time Complexity Awareness
-
-This approach avoids creating extra objects and performs efficient comparisons.
-
-### Data Structure: `char[]`
-
-The `char[]` array is used to store characters of the string so they can be accessed and compared individually.
+### Data Structure: Stack
+The `Stack` class in Java is used to store characters and retrieve them in reverse order.
 
 ---
 
 ## Java Implementation
 
 ```java
+import java.util.Stack;
+
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         String text = "madam";
 
-        char[] characters = text.toCharArray();
+        Stack<Character> stack = new Stack<>();
 
-        int start = 0;
-        int end = characters.length - 1;
-
-        boolean isPalindrome = true;
-
-        while (start < end) {
-
-            if (characters[start] != characters[end]) {
-                isPalindrome = false;
-                break;
-            }
-
-            start++;
-            end--;
+        for (int i = 0; i < text.length(); i++) {
+            stack.push(text.charAt(i));
         }
 
-        if (isPalindrome) {
+        String reversed = "";
+
+        while (!stack.isEmpty()) {
+            reversed = reversed + stack.pop();
+        }
+
+        if (text.equals(reversed)) {
             System.out.println(text + " is a Palindrome");
         } else {
             System.out.println(text + " is Not a Palindrome");
         }
     }
 }
-```
-
----
-
-## Sample Output
-
-```
-madam is a Palindrome
-```
-
----
-
-## Conclusion
-
-This use case demonstrates how a palindrome can be checked using a **character array and the two-pointer technique**, which is more efficient because it avoids creating additional string objects and minimizes unnecessary comparisons.
