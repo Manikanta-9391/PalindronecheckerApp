@@ -4,47 +4,113 @@ The objective of the **PalindromeChecker App** is to design and implement a cons
 
 ---
 
-# UC12: Strategy Pattern for Palindrome Algorithms (Advanced)
+# UC13: Performance Comparison
 
 ## Goal
-Choose a palindrome checking algorithm dynamically using the **Strategy Design Pattern**.
+Compare the performance of different palindrome algorithms.
 
 ---
 
 ## Flow
 1. Program starts.
-2. A `PalindromeStrategy` interface is defined.
-3. Multiple implementations are created such as:
-    - StackStrategy
-    - DequeStrategy
-4. The desired strategy is selected at runtime.
-5. The selected strategy checks whether the string is a palindrome.
-6. The result is printed on the console.
+2. Multiple palindrome algorithms are implemented.
+3. Each algorithm is executed with the same input string.
+4. Execution time is measured using `System.nanoTime()`.
+5. The execution time for each algorithm is displayed.
+6. Results are compared.
 7. Program exits.
 
 ---
 
-## Key Concepts Used in UC12
+## Key Concepts Used in UC13
 
-### Interface
-Defines a common method `checkPalindrome()` for all palindrome algorithms.
+### System.nanoTime()
+Provides a high-precision time measurement for performance analysis.
 
-### Polymorphism
-Different classes implement the same interface but provide different behavior.
+### Algorithm Comparison
+Allows evaluation of which palindrome algorithm performs faster.
 
-### Strategy Pattern
-Allows selecting different algorithms dynamically without changing the main program.
-
-### Data Structures
-Varies depending on the strategy used (Stack, Deque, etc.).
+### Data Structures Used
+- String
+- Stack
+- Deque
 
 ---
 
 ## Java Implementation
 
-### Strategy Interface
-
 ```java
-public interface PalindromeStrategy {
-    boolean checkPalindrome(String text);
+import java.util.Stack;
+import java.util.Deque;
+import java.util.LinkedList;
+
+public class PalindromePerformanceComparison {
+
+    public static boolean checkUsingTwoPointer(String text) {
+        int start = 0;
+        int end = text.length() - 1;
+
+        while (start < end) {
+            if (text.charAt(start) != text.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+    public static boolean checkUsingStack(String text) {
+
+        Stack<Character> stack = new Stack<>();
+
+        for (char c : text.toCharArray()) {
+            stack.push(c);
+        }
+
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) != stack.pop()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean checkUsingDeque(String text) {
+
+        Deque<Character> deque = new LinkedList<>();
+
+        for (char c : text.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+
+        String text = "madam";
+
+        long startTime = System.nanoTime();
+        checkUsingTwoPointer(text);
+        long endTime = System.nanoTime();
+        System.out.println("Two Pointer Time: " + (endTime - startTime) + " ns");
+
+        startTime = System.nanoTime();
+        checkUsingStack(text);
+        endTime = System.nanoTime();
+        System.out.println("Stack Time: " + (endTime - startTime) + " ns");
+
+        startTime = System.nanoTime();
+        checkUsingDeque(text);
+        endTime = System.nanoTime();
+        System.out.println("Deque Time: " + (endTime - startTime) + " ns");
+    }
 }
