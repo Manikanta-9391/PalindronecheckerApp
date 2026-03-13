@@ -4,70 +4,59 @@ The objective of the **PalindromeChecker App** is to design and implement a cons
 
 ---
 
-# UC10: Case-Insensitive & Space-Ignored Palindrome
+# UC11: Object-Oriented Palindrome Service
 
 ## Goal
-Check whether a string is a palindrome while **ignoring spaces and letter case differences**.
+Encapsulate palindrome checking logic inside a dedicated class following object-oriented programming principles.
 
 ---
 
 ## Flow
 1. Program starts.
-2. The original string is stored in a variable.
-3. The string is normalized by:
-    - Removing spaces.
-    - Converting all characters to lowercase.
-4. Characters from the start and end are compared.
-5. If characters match, the comparison continues.
-6. If characters differ, the string is not a palindrome.
-7. The result is printed on the console.
-8. Program exits.
+2. A `PalindromeChecker` class is created.
+3. The class exposes a method `checkPalindrome()` to perform the palindrome validation.
+4. The main application creates an object of the class.
+5. The method is called with the input string.
+6. The result is displayed on the console.
+7. Program exits.
 
 ---
 
-## Key Concepts Used in UC10
+## Key Concepts Used in UC11
 
-### String Preprocessing
-The string is cleaned before processing by removing spaces and converting characters to lowercase.
+### Encapsulation
+The palindrome logic is hidden inside the `PalindromeChecker` class and accessed through a public method.
 
-### Regular Expressions
-Used with `replaceAll()` to remove spaces from the string.
+### Single Responsibility Principle
+The `PalindromeChecker` class is responsible only for palindrome validation.
 
 ### Data Structure
-String / Array
+Internal structures such as arrays or character comparisons may be used within the class.
 
 ---
 
 ## Java Implementation
 
+### PalindromeChecker Class
+
 ```java
-public class PalindromeCheckerApp {
+public class PalindromeChecker {
 
-    public static void main(String[] args) {
+    public boolean checkPalindrome(String text) {
 
-        String text = "Madam In Eden Im Adam";
-
-        String normalized = text.replaceAll("\\s+", "").toLowerCase();
-
-        boolean isPalindrome = true;
         int start = 0;
-        int end = normalized.length() - 1;
+        int end = text.length() - 1;
 
         while (start < end) {
 
-            if (normalized.charAt(start) != normalized.charAt(end)) {
-                isPalindrome = false;
-                break;
+            if (text.charAt(start) != text.charAt(end)) {
+                return false;
             }
 
             start++;
             end--;
         }
 
-        if (isPalindrome) {
-            System.out.println(text + " is a Palindrome (Ignoring spaces and case)");
-        } else {
-            System.out.println(text + " is Not a Palindrome");
-        }
+        return true;
     }
 }
