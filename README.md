@@ -1,62 +1,50 @@
 # Palindrome Checker App
 
-The objective of the **PalindromeChecker App** is to design and implement a console-based Java application that validates whether a given string is a palindrome under different conditions, while strengthening core programming fundamentals and data structure concepts.
+The objective of the **PalindromeChecker App** is to design and implement a console-based Java application that validates whether a given string is a palindrome under different conditions while strengthening core programming fundamentals and data structure concepts.
 
 ---
 
-# UC11: Object-Oriented Palindrome Service
+# UC12: Strategy Pattern for Palindrome Algorithms (Advanced)
 
 ## Goal
-Encapsulate palindrome checking logic inside a dedicated class following object-oriented programming principles.
+Choose a palindrome checking algorithm dynamically using the **Strategy Design Pattern**.
 
 ---
 
 ## Flow
 1. Program starts.
-2. A `PalindromeChecker` class is created.
-3. The class exposes a method `checkPalindrome()` to perform the palindrome validation.
-4. The main application creates an object of the class.
-5. The method is called with the input string.
-6. The result is displayed on the console.
+2. A `PalindromeStrategy` interface is defined.
+3. Multiple implementations are created such as:
+    - StackStrategy
+    - DequeStrategy
+4. The desired strategy is selected at runtime.
+5. The selected strategy checks whether the string is a palindrome.
+6. The result is printed on the console.
 7. Program exits.
 
 ---
 
-## Key Concepts Used in UC11
+## Key Concepts Used in UC12
 
-### Encapsulation
-The palindrome logic is hidden inside the `PalindromeChecker` class and accessed through a public method.
+### Interface
+Defines a common method `checkPalindrome()` for all palindrome algorithms.
 
-### Single Responsibility Principle
-The `PalindromeChecker` class is responsible only for palindrome validation.
+### Polymorphism
+Different classes implement the same interface but provide different behavior.
 
-### Data Structure
-Internal structures such as arrays or character comparisons may be used within the class.
+### Strategy Pattern
+Allows selecting different algorithms dynamically without changing the main program.
+
+### Data Structures
+Varies depending on the strategy used (Stack, Deque, etc.).
 
 ---
 
 ## Java Implementation
 
-### PalindromeChecker Class
+### Strategy Interface
 
 ```java
-public class PalindromeChecker {
-
-    public boolean checkPalindrome(String text) {
-
-        int start = 0;
-        int end = text.length() - 1;
-
-        while (start < end) {
-
-            if (text.charAt(start) != text.charAt(end)) {
-                return false;
-            }
-
-            start++;
-            end--;
-        }
-
-        return true;
-    }
+public interface PalindromeStrategy {
+    boolean checkPalindrome(String text);
 }
